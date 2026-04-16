@@ -6,13 +6,25 @@ import { usePosts } from '../hooks/usePosts.js';
 const categories = [
   'All',
   'CAS',
-  'BSIT',
   'BA English Language',
   'BA Psychology',
   'BA Social Science',
   'Public Administration',
+  'BSIT',
   'Mathematics',
 ];
+
+function formatEventDate(date) {
+  if (!date) {
+    return 'Date to be announced';
+  }
+
+  return new Date(`${date}T00:00:00`).toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  });
+}
 
 function getPostCategory(id) {
   const categoryMap = [
@@ -26,6 +38,33 @@ function getPostCategory(id) {
   return categoryMap[id % categoryMap.length];
 }
 
+function getPostDate(id) {
+  const day = String(4 + (id % 24)).padStart(2, '0');
+  return `2026-06-${day}`;
+}
+
+function getPostTime(id) {
+  const times = ['08:00 AM', '10:00 AM', '01:00 PM', '03:00 PM'];
+  return times[id % times.length];
+}
+
+function getApiEventTitle(category, id) {
+  const titleMap = {
+    BSIT: 'Information Technology Skills Workshop',
+    'BA English Language': 'English Language Writing Workshop',
+    'BA Psychology': 'Psychology Student Wellness Talk',
+    'BA Social Science': 'Social Science Research Forum',
+    'Public Administration': 'Public Administration Service Seminar',
+    Mathematics: 'Mathematics Problem Solving Session',
+  };
+
+  return `${titleMap[category]} ${id}`;
+}
+
+function getApiEventBody(category) {
+  return `A ${category} event for student learning, participation, and academic development.`;
+}
+
 export default function Events() {
   const { events, dispatch } = useApp();
   const { posts, loading, refreshing, error, lastUpdated, updateNotice } =
@@ -35,16 +74,20 @@ export default function Events() {
   const [form, setForm] = useState({
     title: '',
     body: '',
-    category: 'Technology',
+    category: 'CAS',
+    date: '',
+    time: '',
   });
 
   const apiEvents = useMemo(
     () =>
       posts.map((post) => ({
         id: String(post.id),
-        title: post.title,
-        body: post.body,
         category: getPostCategory(post.id),
+        date: getPostDate(post.id),
+        time: getPostTime(post.id),
+        title: getApiEventTitle(getPostCategory(post.id), post.id),
+        body: getApiEventBody(getPostCategory(post.id)),
         status: post.id % 2 === 0 ? 'open' : 'closed',
         source: 'api',
       })),
@@ -55,7 +98,7 @@ export default function Events() {
 
   const visibleEvents = useMemo(() => {
     return allEvents.filter((event) => {
-      const matchesSearch = `${event.title} ${event.body}`
+      const matchesSearch = `${event.title} ${event.body} ${event.date} ${event.time}`
         .toLowerCase()
         .includes(query.toLowerCase());
       const matchesCategory =
@@ -78,19 +121,21 @@ export default function Events() {
         title: form.title.trim(),
         body: form.body.trim(),
         category: form.category,
+        date: form.date,
+        time: form.time || 'To be announced',
       },
     });
-    setForm({ title: '', body: '', category: 'Technology' });
+    setForm({ title: '', body: '', category: 'CAS', date: '', time: '' });
   }
 
   return (
     <main className="page-shell">
       <section className="page-heading">
-        <span className="eyebrow">Campus Events</span>
-        <h1>Events</h1>
+        <span className="eyebrow">College of Arts and Science</span>
+        <h1>Campus Events</h1>
         <p>
-          Explore ISPSC Tagudin CAS and BSIT event cards, manage custom campus
-          events, and check the latest refresh time.
+          CAS events include all listed courses, while each program also has
+          its own academic event connected to its field.
         </p>
       </section>
 
@@ -168,6 +213,28 @@ export default function Events() {
                 <option key={categoryName}>{categoryName}</option>
               ))}
           </select>
+          <input
+            type="date"
+            value={form.date}
+            onChange={(event) =>
+              setForm((currentForm) => ({
+                ...currentForm,
+                date: event.target.value,
+              }))
+            }
+            aria-label="Event date"
+          />
+          <input
+            type="time"
+            value={form.time}
+            onChange={(event) =>
+              setForm((currentForm) => ({
+                ...currentForm,
+                time: event.target.value,
+              }))
+            }
+            aria-label="Event time"
+          />
           <button className="primary-button" type="submit">
             Add Event
           </button>
@@ -191,9 +258,13 @@ export default function Events() {
                     <span className="tag">{event.category}</span>
                   </div>
                   <h2>{event.title}</h2>
+                  <div className="event-schedule">
+                    <span>{formatEventDate(event.date)}</span>
+                    <span>{event.time || 'Time to be announced'}</span>
+                  </div>
                   <p>{event.body}</p>
                   <div className="card-actions">
-                    <Link className="text-link" to={`/events/${event.id}`}>
+                    <Link className="small-button" to={`/events/${event.id}`}>
                       View Details
                     </Link>
                     {event.source === 'campus' && (

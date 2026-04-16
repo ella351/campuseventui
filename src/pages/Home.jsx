@@ -1,36 +1,27 @@
-import { Link } from 'react-router-dom';
-
 export default function Home() {
   return (
     <main className="home-page">
       <section className="hero">
         <div className="hero-content">
-          <span className="eyebrow">College of Arts and Sciences Events</span>
-          <h1>ISPSC Tagudin Campus Event</h1>
+          <span className="eyebrow">College Of Arts and Science</span>
+          <h1>CAS Campus Events</h1>
           <p>
-            Welcome, ISPSC Tagudin Campus students. Stay updated with BSIT and
-            CAS activities such as exhibits, research conferences, quiz bees,
-            capstone project presentations, and Java programming challenges.
+            Welcome, students of the College Of Arts and Science at ISPSC
+            Tagudin Campus. This event hub highlights the academic,
+            cultural, leadership, research, and student development activities
+            of CAS.
           </p>
-          <div className="hero-actions">
-            <Link className="primary-button" to="/events">
-              Browse Events
-            </Link>
-            <Link className="secondary-button" to="/dashboard">
-              Open Dashboard
-            </Link>
-          </div>
         </div>
         <div className="hero-panel" aria-label="Campus event preview">
           <div className="mini-calendar">
             <span>CAS</span>
-            <strong>IT</strong>
+            <strong>26</strong>
           </div>
           <div>
-            <h2>BSIT Capstone Project Exhibit</h2>
+            <h2>College Of Arts and Science Week</h2>
             <p>
-              A student showcase for practical systems, research outputs, and
-              programming projects from ISPSC Tagudin Campus.
+              A celebration of CAS programs through exhibits, research
+              presentations, quiz bees, seminars, and student showcases.
             </p>
           </div>
         </div>
@@ -38,19 +29,25 @@ export default function Home() {
 
       <section className="feature-band" aria-label="CAS programs">
         <article>
-          <strong>BSIT Events</strong>
-          <span>Capstone project exhibit, Java programming, and IT showcases</span>
+          <strong>Languages and Society</strong>
+          <span>
+            Bachelor of Arts in English Language and Bachelor of Arts in Social
+            Science
+          </span>
         </article>
         <article>
-          <strong>CAS Programs</strong>
+          <strong>People and Public Service</strong>
           <span>
-            English Language, Psychology, Social Science, and Public
+            Bachelor of Arts in Psychology and Bachelor of Public
             Administration
           </span>
         </article>
         <article>
-          <strong>More CAS Courses</strong>
-          <span>Information Technology and Mathematics campus activities</span>
+          <strong>Technology and Mathematics</strong>
+          <span>
+            Bachelor of Science in Information Technology and Bachelor of
+            Science in Mathematics
+          </span>
         </article>
       </section>
     </main>

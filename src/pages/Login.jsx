@@ -37,7 +37,7 @@ export default function Login() {
         <span className="eyebrow">Student Access</span>
         <h1>Login</h1>
         <p>
-          Sign in as Ella Estrella to unlock the protected Dashboard page.
+          Sign in to unlock the protected Dashboard page.
         </p>
 
         <form onSubmit={handleLogin}>
@@ -51,7 +51,7 @@ export default function Login() {
                   username: event.target.value,
                 }))
               }
-              placeholder="Ella Estrella"
+             
               autoComplete="username"
             />
           </label>
@@ -65,7 +65,7 @@ export default function Login() {
                   password: event.target.value,
                 }))
               }
-              placeholder="ella123456"
+              
               type="password"
               autoComplete="current-password"
             />

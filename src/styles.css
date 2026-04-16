@@ -445,6 +445,15 @@ textarea:focus {
   line-height: 1.55;
 }
 
+.event-schedule {
+  display: grid;
+  gap: 4px;
+  margin: 0 0 10px;
+  color: var(--primary-strong);
+  font-size: 0.92rem;
+  font-weight: 900;
+}
+
 .card-actions {
   gap: 8px;
   flex-wrap: wrap;
@@ -501,6 +510,11 @@ textarea:focus {
 .details-panel {
   max-width: 860px;
   padding: 28px;
+}
+
+.back-button {
+  width: fit-content;
+  margin-bottom: 18px;
 }
 
 .details-panel h1 {

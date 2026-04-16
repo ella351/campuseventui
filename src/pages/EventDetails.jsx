@@ -2,6 +2,45 @@ import { useEffect, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useApp } from '../context/AppContext.jsx';
 
+function formatEventDate(date) {
+  if (!date) {
+    return 'Date to be announced';
+  }
+
+  return new Date(`${date}T00:00:00`).toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  });
+}
+
+function getPostDate(id) {
+  const day = String(4 + (id % 24)).padStart(2, '0');
+  return `2026-06-${day}`;
+}
+
+function getPostTime(id) {
+  const times = ['08:00 AM', '10:00 AM', '01:00 PM', '03:00 PM'];
+  return times[id % times.length];
+}
+
+function getApiEventTitle(category, id) {
+  const titleMap = {
+    BSIT: 'Information Technology Skills Workshop',
+    'BA English Language': 'English Language Writing Workshop',
+    'BA Psychology': 'Psychology Student Wellness Talk',
+    'BA Social Science': 'Social Science Research Forum',
+    'Public Administration': 'Public Administration Service Seminar',
+    Mathematics: 'Mathematics Problem Solving Session',
+  };
+
+  return `${titleMap[category]} ${id}`;
+}
+
+function getApiEventBody(category) {
+  return `A ${category} event for student learning, participation, and academic development.`;
+}
+
 export default function EventDetails() {
   const { id } = useParams();
   const { events } = useApp();
@@ -44,11 +83,15 @@ export default function EventDetails() {
             'Mathematics',
           ];
 
+          const category = courseCategories[data.id % courseCategories.length];
+
           setApiEvent({
             id: data.id,
-            title: data.title,
-            body: data.body,
-            category: courseCategories[data.id % courseCategories.length],
+            title: getApiEventTitle(category, data.id),
+            body: getApiEventBody(category),
+            category,
+            date: getPostDate(data.id),
+            time: getPostTime(data.id),
             status: data.id % 2 === 0 ? 'open' : 'closed',
           });
           setStatus('success');
@@ -73,7 +116,7 @@ export default function EventDetails() {
   return (
     <main className="page-shell">
       <section className="details-panel">
-        <Link className="text-link" to="/events">
+        <Link className="secondary-button back-button" to="/events">
           Back to events
         </Link>
         {status === 'loading' && <p>Loading event details...</p>}
@@ -97,6 +140,14 @@ export default function EventDetails() {
               <div>
                 <dt>Event Description</dt>
                 <dd>{event.body}</dd>
+              </div>
+              <div>
+                <dt>Event Date</dt>
+                <dd>{formatEventDate(event.date)}</dd>
+              </div>
+              <div>
+                <dt>Event Time</dt>
+                <dd>{event.time || 'Time to be announced'}</dd>
               </div>
             </dl>
           </>
