@@ -16,7 +16,7 @@ export default function Navbar() {
           <NavLink to="/">Home</NavLink>
           <NavLink to="/events">Events</NavLink>
           <NavLink to="/dashboard">Dashboard</NavLink>
-          <NavLink to="/login">Login</NavLink>
+          {!isLoggedIn && <NavLink to="/login">Login</NavLink>}
         </div>
 
         <div className="nav-actions">

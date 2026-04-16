@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useApp } from '../context/AppContext.jsx';
 
 export default function Dashboard() {
-  const { events } = useApp();
+  const { events, currentUser } = useApp();
   const openEvents = events.filter((event) => event.status === 'open').length;
   const closedEvents = events.length - openEvents;
 
@@ -12,7 +12,8 @@ export default function Dashboard() {
         <span className="eyebrow">Protected Area</span>
         <h1>Dashboard</h1>
         <p>
-          Manage your locally added campus events and monitor event readiness.
+          Welcome, {currentUser}. Manage ISPSC Tagudin Campus events for CAS
+          programs and BSIT activities.
         </p>
       </section>
 
@@ -35,8 +36,9 @@ export default function Dashboard() {
         <div>
           <h2>Event Operations</h2>
           <p>
-            The Events page supports adding, deleting, toggling status, search,
-            category filtering, and API-loaded listings.
+            The Events page supports exhibits, research conferences, quiz bees,
+            capstone project presentations, Java programming events, and CAS
+            program activities.
           </p>
           <Link className="primary-button" to="/events">
             Manage Events

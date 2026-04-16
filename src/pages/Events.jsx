@@ -3,10 +3,26 @@ import { Link } from 'react-router-dom';
 import { useApp } from '../context/AppContext.jsx';
 import { usePosts } from '../hooks/usePosts.js';
 
-const categories = ['All', 'Technology', 'Arts', 'Leadership'];
+const categories = [
+  'All',
+  'CAS',
+  'BSIT',
+  'BA English Language',
+  'BA Psychology',
+  'BA Social Science',
+  'Public Administration',
+  'Mathematics',
+];
 
 function getPostCategory(id) {
-  const categoryMap = ['Technology', 'Leadership', 'Arts'];
+  const categoryMap = [
+    'BSIT',
+    'BA English Language',
+    'BA Psychology',
+    'BA Social Science',
+    'Public Administration',
+    'Mathematics',
+  ];
   return categoryMap[id % categoryMap.length];
 }
 
@@ -73,8 +89,8 @@ export default function Events() {
         <span className="eyebrow">Campus Events</span>
         <h1>Events</h1>
         <p>
-          Explore API-loaded posts as event cards, manage custom campus events,
-          and check the latest refresh time.
+          Explore ISPSC Tagudin CAS and BSIT event cards, manage custom campus
+          events, and check the latest refresh time.
         </p>
       </section>
 

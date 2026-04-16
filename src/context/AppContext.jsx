@@ -13,25 +13,33 @@ const AppContext = createContext(null);
 const initialEvents = [
   {
     id: 'local-1',
-    title: 'Tech Bootcamp Orientation',
-    body: 'Welcome session for student developers, mentors, and project teams.',
-    category: 'Technology',
+    title: 'BSIT Capstone Project Exhibit',
+    body: 'Information Technology students present web systems, mobile apps, and research-based capstone solutions for the ISPSC Tagudin Campus community.',
+    category: 'BSIT',
     status: 'open',
     source: 'campus',
   },
   {
     id: 'local-2',
-    title: 'Arts Night Exhibit',
-    body: 'An evening gallery walk featuring student-made posters, photos, and digital art.',
-    category: 'Arts',
-    status: 'closed',
+    title: 'CAS Research Conference',
+    body: 'Students from English Language, Psychology, Social Science, Public Administration, IT, and Mathematics share research outputs and academic presentations.',
+    category: 'CAS',
+    status: 'open',
     source: 'campus',
   },
   {
     id: 'local-3',
-    title: 'Leadership Forum',
-    body: 'Panel discussion about student leadership, event planning, and campus service.',
-    category: 'Leadership',
+    title: 'Java Programming Challenge',
+    body: 'BSIT students compete in a timed programming contest focused on Java fundamentals, problem solving, and clean code.',
+    category: 'BSIT',
+    status: 'open',
+    source: 'campus',
+  },
+  {
+    id: 'local-4',
+    title: 'CAS Quiz Bee',
+    body: 'A friendly academic competition featuring general education, campus history, CAS programs, and current affairs.',
+    category: 'CAS',
     status: 'open',
     source: 'campus',
   },
@@ -83,6 +91,11 @@ export function AppProvider({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(
     () => localStorage.getItem('campus-auth') === 'true',
   );
+  const [currentUser, setCurrentUser] = useState(
+    () =>
+      localStorage.getItem('campus-user') ||
+      (localStorage.getItem('campus-auth') === 'true' ? 'Ella Estrella' : ''),
+  );
   const [theme, setTheme] = useState(
     () => localStorage.getItem('campus-theme') || 'light',
   );
@@ -90,6 +103,14 @@ export function AppProvider({ children }) {
   useEffect(() => {
     localStorage.setItem('campus-auth', String(isLoggedIn));
   }, [isLoggedIn]);
+
+  useEffect(() => {
+    if (currentUser) {
+      localStorage.setItem('campus-user', currentUser);
+    } else {
+      localStorage.removeItem('campus-user');
+    }
+  }, [currentUser]);
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
@@ -101,15 +122,30 @@ export function AppProvider({ children }) {
       events: state.events,
       dispatch,
       isLoggedIn,
-      login: () => setIsLoggedIn(true),
-      logout: () => setIsLoggedIn(false),
+      currentUser,
+      login: (username, password) => {
+        const isValidUser =
+          username.trim().toLowerCase() === 'ella estrella' &&
+          password === 'ella123456';
+
+        if (isValidUser) {
+          setCurrentUser('Ella Estrella');
+          setIsLoggedIn(true);
+        }
+
+        return isValidUser;
+      },
+      logout: () => {
+        setCurrentUser('');
+        setIsLoggedIn(false);
+      },
       theme,
       toggleTheme: () =>
         setTheme((currentTheme) =>
           currentTheme === 'dark' ? 'light' : 'dark',
         ),
     }),
-    [isLoggedIn, state.events, theme],
+    [currentUser, isLoggedIn, state.events, theme],
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

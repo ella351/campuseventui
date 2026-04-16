@@ -35,11 +35,20 @@ export default function EventDetails() {
         const data = await response.json();
 
         if (!ignore) {
+          const courseCategories = [
+            'BSIT',
+            'BA English Language',
+            'BA Psychology',
+            'BA Social Science',
+            'Public Administration',
+            'Mathematics',
+          ];
+
           setApiEvent({
             id: data.id,
             title: data.title,
             body: data.body,
-            category: data.id % 2 === 0 ? 'Technology' : 'Leadership',
+            category: courseCategories[data.id % courseCategories.length],
             status: data.id % 2 === 0 ? 'open' : 'closed',
           });
           setStatus('success');
