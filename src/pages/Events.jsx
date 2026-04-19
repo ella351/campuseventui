@@ -247,7 +247,12 @@ export default function Events() {
               Error loading API data: {error}
             </div>
           )}
-          {!loading && !error && (
+          {!loading && visibleEvents.length === 0 && (
+            <div className="status-panel">
+              No events match the current search or category.
+            </div>
+          )}
+          {visibleEvents.length > 0 && (
             <div className="event-grid">
               {visibleEvents.map((event) => (
                 <article className="event-card" key={event.id}>

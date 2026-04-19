@@ -20,7 +20,7 @@ export default function Home() {
           <div>
             <h2>College Of Arts and Science Week</h2>
             <p>
-              A celebration of CAS programs through exhibits, research
+              College Of Arts and Science Week includes exhibits, research
               presentations, quiz bees, seminars, and student showcases.
             </p>
           </div>

@@ -146,29 +146,11 @@ function eventReducer(state, action) {
 
 export function AppProvider({ children }) {
   const [state, dispatch] = useReducer(eventReducer, initialState);
-  const [isLoggedIn, setIsLoggedIn] = useState(
-    () => localStorage.getItem('campus-auth') === 'true',
-  );
-  const [currentUser, setCurrentUser] = useState(
-    () =>
-      localStorage.getItem('campus-user') ||
-      (localStorage.getItem('campus-auth') === 'true' ? 'Ella Estrella' : ''),
-  );
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState('');
   const [theme, setTheme] = useState(
     () => localStorage.getItem('campus-theme') || 'light',
   );
-
-  useEffect(() => {
-    localStorage.setItem('campus-auth', String(isLoggedIn));
-  }, [isLoggedIn]);
-
-  useEffect(() => {
-    if (currentUser) {
-      localStorage.setItem('campus-user', currentUser);
-    } else {
-      localStorage.removeItem('campus-user');
-    }
-  }, [currentUser]);
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;

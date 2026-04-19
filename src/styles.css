@@ -98,6 +98,10 @@ button {
   font-weight: 800;
 }
 
+.brand-placeholder {
+  width: 180px;
+}
+
 .brand-mark {
   display: grid;
   place-items: center;
@@ -156,6 +160,21 @@ button {
   width: 42px;
   background: var(--surface-strong);
   color: var(--primary-strong);
+}
+
+.theme-icon {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.theme-icon circle {
+  fill: currentColor;
+  stroke: none;
 }
 
 .ghost-button,

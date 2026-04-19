@@ -37,13 +37,14 @@ export default function Login() {
         <span className="eyebrow">Student Access</span>
         <h1>Login</h1>
         <p>
-          Sign in to unlock the protected Dashboard page.
+          Sign in to unlock the Dashboard page.
         </p>
 
-        <form onSubmit={handleLogin}>
+        <form autoComplete="off" onSubmit={handleLogin}>
           <label>
             Student name
             <input
+              name="campus-student-name"
               value={credentials.username}
               onChange={(event) =>
                 setCredentials((currentCredentials) => ({
@@ -51,13 +52,14 @@ export default function Login() {
                   username: event.target.value,
                 }))
               }
-             
-              autoComplete="username"
+              autoComplete="off"
+              required
             />
           </label>
           <label>
             Password
             <input
+              name="campus-student-password"
               value={credentials.password}
               onChange={(event) =>
                 setCredentials((currentCredentials) => ({
@@ -65,9 +67,9 @@ export default function Login() {
                   password: event.target.value,
                 }))
               }
-              
               type="password"
-              autoComplete="current-password"
+              autoComplete="new-password"
+              required
             />
           </label>
           {error && <p className="inline-error">{error}</p>}
