@@ -49,7 +49,7 @@ export default function Dashboard() {
   return (
     <main className="page-shell">
       <section className="page-heading">
-        <span className="eyebrow">Protected Workspace</span>
+        <span className="eyebrow"><h1>Dashboard</h1></span>
         <h1>Dashboard</h1>
         <p>
           Welcome, {currentUser}. Manage ISPSC Tagudin Campus events for CAS
