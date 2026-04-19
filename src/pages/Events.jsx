@@ -66,7 +66,7 @@ function getApiEventBody(category) {
 }
 
 export default function Events() {
-  const { events, dispatch } = useApp();
+  const { events, dispatch, isLoggedIn } = useApp();
   const { posts, loading, refreshing, error, lastUpdated, updateNotice } =
     usePosts();
   const [query, setQuery] = useState('');
@@ -172,73 +172,77 @@ export default function Events() {
         </div>
       </section>
 
-      <section className="event-workspace">
-        <form className="event-form" onSubmit={handleSubmit}>
-          <h2>Add Event</h2>
-          <input
-            value={form.title}
-            onChange={(event) =>
-              setForm((currentForm) => ({
-                ...currentForm,
-                title: event.target.value,
-              }))
-            }
-            placeholder="Event title"
-            aria-label="Event title"
-          />
-          <textarea
-            value={form.body}
-            onChange={(event) =>
-              setForm((currentForm) => ({
-                ...currentForm,
-                body: event.target.value,
-              }))
-            }
-            placeholder="Event description"
-            aria-label="Event description"
-          />
-          <select
-            value={form.category}
-            onChange={(event) =>
-              setForm((currentForm) => ({
-                ...currentForm,
-                category: event.target.value,
-              }))
-            }
-            aria-label="Event category"
-          >
-            {categories
-              .filter((categoryName) => categoryName !== 'All')
-              .map((categoryName) => (
-                <option key={categoryName}>{categoryName}</option>
-              ))}
-          </select>
-          <input
-            type="date"
-            value={form.date}
-            onChange={(event) =>
-              setForm((currentForm) => ({
-                ...currentForm,
-                date: event.target.value,
-              }))
-            }
-            aria-label="Event date"
-          />
-          <input
-            type="time"
-            value={form.time}
-            onChange={(event) =>
-              setForm((currentForm) => ({
-                ...currentForm,
-                time: event.target.value,
-              }))
-            }
-            aria-label="Event time"
-          />
-          <button className="primary-button" type="submit">
-            Add Event
-          </button>
-        </form>
+      <section
+        className={`event-workspace ${isLoggedIn ? '' : 'browse-only'}`}
+      >
+        {isLoggedIn && (
+          <form className="event-form" onSubmit={handleSubmit}>
+            <h2>Add Event</h2>
+            <input
+              value={form.title}
+              onChange={(event) =>
+                setForm((currentForm) => ({
+                  ...currentForm,
+                  title: event.target.value,
+                }))
+              }
+              placeholder="Event title"
+              aria-label="Event title"
+            />
+            <textarea
+              value={form.body}
+              onChange={(event) =>
+                setForm((currentForm) => ({
+                  ...currentForm,
+                  body: event.target.value,
+                }))
+              }
+              placeholder="Event description"
+              aria-label="Event description"
+            />
+            <select
+              value={form.category}
+              onChange={(event) =>
+                setForm((currentForm) => ({
+                  ...currentForm,
+                  category: event.target.value,
+                }))
+              }
+              aria-label="Event category"
+            >
+              {categories
+                .filter((categoryName) => categoryName !== 'All')
+                .map((categoryName) => (
+                  <option key={categoryName}>{categoryName}</option>
+                ))}
+            </select>
+            <input
+              type="date"
+              value={form.date}
+              onChange={(event) =>
+                setForm((currentForm) => ({
+                  ...currentForm,
+                  date: event.target.value,
+                }))
+              }
+              aria-label="Event date"
+            />
+            <input
+              type="time"
+              value={form.time}
+              onChange={(event) =>
+                setForm((currentForm) => ({
+                  ...currentForm,
+                  time: event.target.value,
+                }))
+              }
+              aria-label="Event time"
+            />
+            <button className="primary-button" type="submit">
+              Add Event
+            </button>
+          </form>
+        )}
 
         <div className="events-column">
           {loading && <div className="status-panel">Loading events...</div>}
@@ -272,7 +276,7 @@ export default function Events() {
                     <Link className="small-button" to={`/events/${event.id}`}>
                       View Details
                     </Link>
-                    {event.source === 'campus' && (
+                    {isLoggedIn && event.source === 'campus' && (
                       <>
                         <button
                           className="small-button"
