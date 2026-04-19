@@ -50,7 +50,6 @@ export default function Dashboard() {
     <main className="page-shell">
       <section className="page-heading">
         <span className="eyebrow"><h1>Dashboard</h1></span>
-        <h1>Dashboard</h1>
         <p>
           Welcome, {currentUser}. Manage ISPSC Tagudin Campus events for CAS
           programs and activities.
